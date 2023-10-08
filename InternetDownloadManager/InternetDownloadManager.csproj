@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="UserControls" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BrokHelper">
+      <HintPath>..\..\..\..\MainApp\Developer\MainProject\BrokHelper\BrokHelper\bin\Debug\net7.0-windows\BrokHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="BrokHelperCustomControlLibrary">
+      <HintPath>..\..\..\..\MainApp\Developer\MainProject\BrokHelper\BrokHelperCustomControlLibrary\bin\Debug\net7.0-windows\BrokHelperCustomControlLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

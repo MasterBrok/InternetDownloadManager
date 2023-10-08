@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="bgMain" Color="#16161E" />
+    <SolidColorBrush x:Key="bgBorderMain" Color="#1A1A24" />
+    <SolidColorBrush x:Key="fgMain" Color="#A7A6AB" />
+
+    <SolidColorBrush x:Key="bgScrollViewer" Color="#22232A" />
+    <SolidColorBrush x:Key="bgScrollBar" Color="#2B3139" />
+
+
+    <SolidColorBrush x:Key="bgTextBox" Color="#22222A" />
+    <SolidColorBrush x:Key="fgTextBox" Color="#DEDEFF" />
+
+</ResourceDictionary>

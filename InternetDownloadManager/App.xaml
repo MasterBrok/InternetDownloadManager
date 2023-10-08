@@ -1,0 +1,160 @@
+﻿<Application
+    x:Class="InternetDownloadManager.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:checkbox="clr-namespace:InternetDownloadManager.BaseControls.BaseCheckBoxs"
+    xmlns:local="clr-namespace:InternetDownloadManager"
+    xmlns:model="clr-namespace:InternetDownloadManager.InternetDownloadManager_MVVM.Models"
+    xmlns:viewmodels="clr-namespace:InternetDownloadManager.InternetDownloadManager_MVVM.ViewModels"
+    DispatcherUnhandledException="Application_DispatcherUnhandledException"
+    StartupUri="Windows\wIDM.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\Colors\AppColors.xaml" />
+                <ResourceDictionary Source="Resources\Fonts\AppFonts.xaml" />
+                <ResourceDictionary Source="Resources\Icons\AppIcons.xaml" />
+                <ResourceDictionary Source="Styles\StyleBaseControls\StyleBase.xaml" />
+                <ResourceDictionary Source="Styles\StyleControls\Style.xaml" />
+                <ResourceDictionary Source="Animations\Animations.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="DataContext" Value="{x:Type model:Download}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border
+                                Margin="{TemplateBinding Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <!--  Select  -->
+                                        <ColumnDefinition Width=".5*" />
+                                        <!--  Name File  -->
+                                        <ColumnDefinition Width="3*" />
+                                        <!--  Size  -->
+                                        <ColumnDefinition Width="*" />
+                                        <!--  Status  -->
+                                        <ColumnDefinition Width="1.5*" />
+                                        <!--  Time Left  -->
+                                        <ColumnDefinition Width="*" />
+                                        <!--  Last  -->
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <checkbox:ccDownloadCheckBox
+                                        x:Name="chSelect"
+                                        Grid.Column="0"
+                                        Content="CheckBox"
+                                        Foreground="White"
+                                        IsChecked="{TemplateBinding IsSelected}" />
+
+
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <Path
+                                                Width="20"
+                                                Height="20"
+                                                Margin="5,0,15,0"
+                                                Data="{Binding Icon}"
+                                                Stretch="Uniform"
+                                                Stroke="White"
+                                                StrokeThickness="0.4" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical">
+                                            <Label Content="{Binding Title}" Style="{DynamicResource StyleLabelListBoxItem}" />
+                                            <Label
+                                                Content="{Binding Format}"
+                                                FontSize="10"
+                                                Opacity="0.6"
+                                                Style="{DynamicResource StyleLabelListBoxItem}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                    <Grid Grid.Column="2" HorizontalAlignment="Left">
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            Padding="0"
+                                            VerticalAlignment="Center"
+                                            Content="{Binding Size}"
+                                            Style="{DynamicResource StyleLabelListBoxItem}" />
+                                    </Grid>
+
+
+                                    <Grid Grid.Column="3" Height="30">
+                                        <ProgressBar
+                                            x:Name="prog"
+                                            VerticalAlignment="Center"
+                                            Style="{DynamicResource StyleStatusProgressBar}"
+                                            Value="{Binding Value}" />
+                                    </Grid>
+
+                                    <Grid Grid.Column="4">
+                                        <Label
+                                            Margin="28,4,0,0"
+                                            VerticalContentAlignment="Center"
+                                            Content="{Binding TimeLeft}"
+                                            Style="{DynamicResource StyleLabelListBoxItem}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <!--<Trigger Property="IsSelected" Value="True">
+                           <Setter Property="Opacity" Value="0.1" />
+                           <Setter TargetName="chSelect" Property="IsChecked" Value="True" />
+                       </Trigger>-->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.3" />
+                                </Trigger>
+                                <Trigger SourceName="prog" Property="Value" Value="100">
+                                    <Setter Property="IsEnabled" Value="True" />
+                                    <Setter Property="Opacity" Value="0.1" />
+                                    <Setter TargetName="chSelect" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="MenuItem">
+                <Setter Property="Foreground" Value="{DynamicResource fgTextBox}" />
+                <Setter Property="FontFamily" Value="{DynamicResource FontMain}" />
+                <Setter Property="Margin" Value="15,10,15,10" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="MenuItem">
+                            <Border>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Header}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.4" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

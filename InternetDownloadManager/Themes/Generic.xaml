@@ -1,0 +1,553 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:button="clr-namespace:InternetDownloadManager.BaseControls.BaseButton"
+    xmlns:checkbox="clr-namespace:InternetDownloadManager.BaseControls.BaseCheckBoxs"
+    xmlns:expander="clr-namespace:InternetDownloadManager.BaseControls.BaseExpander"
+    xmlns:list="clr-namespace:InternetDownloadManager.BaseControls.BaseListBoxs"
+    xmlns:local="clr-namespace:InternetDownloadManager"
+    xmlns:model="clr-namespace:InternetDownloadManager.InternetDownloadManager_MVVM.Models"
+    xmlns:scrollviewer="https://github.com/MasterBrok/BrokHelperControls"
+    xmlns:textbox="clr-namespace:InternetDownloadManager.BaseControls.BaseTextBox">
+
+    <Style TargetType="{x:Type textbox:ccTextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type textbox:ccTextBox}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Path
+                                Grid.Column="0"
+                                Width="25"
+                                Height="25"
+                                Margin="6"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Data="{TemplateBinding IconLeft}"
+                                Stretch="Uniform"
+                                Stroke="{DynamicResource fgMain}"
+                                StrokeThickness="0.7" />
+
+                            <ScrollViewer
+                                x:Name="PART_ContentHost"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden" />
+
+                            <Path
+                                Grid.Column="2"
+                                Width="20"
+                                Height="20"
+                                Margin="4"
+                                Data="{TemplateBinding IconRight}"
+                                Stretch="Uniform"
+                                Stroke="Red"
+                                StrokeThickness="0.7" />
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type button:ccButtonOption}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type button:ccButtonOption}">
+                    <Border
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="7">
+                        <StackPanel Orientation="Vertical">
+                            <Path
+                                Width="15"
+                                Height="15"
+                                Margin="3,1,3,1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Data="{TemplateBinding Icon}"
+                                Stretch="Uniform"
+                                Stroke="{DynamicResource fgMain}"
+                                StrokeThickness="1" />
+                            <Label
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type expander:ccMenuExpander}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type expander:ccMenuExpander}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="rd1" Height="Auto" />
+                                <RowDefinition x:Name="rd2" Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <button:ccToggleButtonExpender
+                                x:Name="btn"
+                                Width="200"
+                                Icon="{TemplateBinding Icon}"
+                                TextToggle="{TemplateBinding Header}" />
+
+                            <StackPanel
+                                x:Name="spItems"
+                                Grid.Row="1"
+                                Height="0"
+                                HorizontalAlignment="Center">
+
+                                <ContentPresenter
+                                    x:Name="ExpandSite"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Focusable="false" />
+
+                            </StackPanel>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger SourceName="btn" Property="IsChecked" Value="True">
+                            <Setter TargetName="spItems" Property="Height" Value="Auto" />
+                        </Trigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=btn, Path=IsMouseOver}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="spItems" Property="Height" Value="Auto" />
+                            <Setter Property="IsExpanded" Value="True" />
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Menu  -->
+    <Style TargetType="button:ccToggleButtonExpender">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type button:ccToggleButtonExpender}">
+                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Path
+                                Width="20"
+                                Height="20"
+                                Margin="2"
+                                HorizontalAlignment="Left"
+                                Data="{TemplateBinding Icon}"
+                                Stretch="Uniform"
+                                Stroke="{DynamicResource fgTextBox}"
+                                StrokeThickness="2" />
+
+                            <Label
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="{TemplateBinding TextToggle}"
+                                FontFamily="{DynamicResource FontMain}"
+                                FontSize="15"
+                                FontWeight="Regular"
+                                Foreground="{DynamicResource fgMain}" />
+
+                            <Path
+                                x:Name="arrow"
+                                Grid.Column="2"
+                                Width="20"
+                                Height="20"
+                                Margin="5,2,5,2"
+                                HorizontalAlignment="Right"
+                                Data="{DynamicResource Down}"
+                                Stretch="Uniform"
+                                Stroke="{DynamicResource fgTextBox}"
+                                StrokeThickness="2" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="arrow" Property="Data" Value="{DynamicResource Up}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="arrow" Property="Data" Value="{DynamicResource Up}" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Sub Menu  -->
+    <Style TargetType="button:ccExpenderMenuButton">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="button:ccExpenderMenuButton">
+                    <Border Background="Transparent" CornerRadius="6">
+                        <Grid Background="Transparent">
+                            <Rectangle
+                                x:Name="el"
+                                Width="1"
+                                Height="24"
+                                Margin="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Fill="GRay"
+                                Opacity="0.3"
+                                RadiusX="10"
+                                RadiusY="10" />
+                            <StackPanel Orientation="Horizontal">
+                                <Path
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,0,5,0"
+                                    Data="{TemplateBinding Icon}"
+                                    Fill="Transparent"
+                                    Stretch="Uniform"
+                                    Stroke="{DynamicResource fgMain}"
+                                    StrokeThickness="1" />
+                                <Label
+                                    Margin="2.2"
+                                    Padding="4"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="{TemplateBinding Content}"
+                                    FontFamily="{DynamicResource FontMain}"
+                                    FontWeight="Regular"
+                                    Foreground="{DynamicResource fgMain}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="el"
+                                            Storyboard.TargetProperty="Width"
+                                            From="0"
+                                            To="145" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="el"
+                                            Storyboard.TargetProperty="Width"
+                                            To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <!--  ListBox  -->
+    <Style TargetType="{x:Type list:ccDownloadListBox}">
+        <Setter Property="Margin" Value="1,10,1,1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type list:ccDownloadListBox}">
+                    <Border>
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <!--  Select  -->
+                                    <ColumnDefinition Width=".5*" />
+                                    <!--  Name File  -->
+                                    <ColumnDefinition Width="3*" />
+                                    <!--  Size  -->
+                                    <ColumnDefinition Width="*" />
+                                    <!--  Status  -->
+                                    <ColumnDefinition Width="1.6*" />
+                                    <!--  Time Left  -->
+                                    <ColumnDefinition Width="*" />
+                                    <!--  Last  -->
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="Label">
+                                        <Setter Property="FontFamily" Value="{DynamicResource FontMain}" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Label
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Content="" />
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Content="Name"
+                                    Foreground="White" />
+                                <Label
+                                    Grid.Column="2"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Content="Size"
+                                    Foreground="White" />
+                                <Label
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Content="Status"
+                                    Foreground="White" />
+                                <Label
+                                    Grid.Column="4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Content="Time Left"
+                                    Foreground="White" />
+                            </Grid>
+
+                            <scrollviewer:ccScrollViewerCornerRadius
+                                Grid.Row="1"
+                                CornerRadius="15"
+                                DirectionScrollViewer="Right"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Visible">
+                                <StackPanel IsItemsHost="True" Orientation="Vertical" />
+                                <scrollviewer:ccScrollViewerCornerRadius.ThumbStyle>
+                                    <Style TargetType="{x:Type scrollviewer:ccThumbCornerRadius}">
+                                        <Setter Property="Background" Value="{DynamicResource bgScrollBar}" />
+                                        <Setter Property="Margin" Value="1" />
+                                        <Setter Property="Width" Value="20" />
+                                        <Setter Property="CornerRadius" Value="5" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="DarkGray" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </scrollviewer:ccScrollViewerCornerRadius.ThumbStyle>
+                                <scrollviewer:ccScrollViewerCornerRadius.ScrollBarStyle>
+                                    <Style TargetType="{x:Type scrollviewer:ccScrollBarCornerRadius}">
+                                        <Setter Property="Background" Value="{DynamicResource bgScrollViewer}" />
+                                        <Setter Property="BorderBrush" Value="PaleVioletRed" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Margin" Value="5" />
+                                        <Setter Property="TrackMargin" Value="5" />
+                                        <Setter Property="CornerRadius" Value="15" />
+                                    </Style>
+                                </scrollviewer:ccScrollViewerCornerRadius.ScrollBarStyle>
+                            </scrollviewer:ccScrollViewerCornerRadius>
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type list:ccDownloadListBoxItem}">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="DataContext" Value="{x:Type model:Download}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type list:ccDownloadListBoxItem}">
+                    <Border
+                        Margin="{TemplateBinding Margin}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <!--  Select  -->
+                                <ColumnDefinition Width=".5*" />
+                                <!--  Name File  -->
+                                <ColumnDefinition Width="3*" />
+                                <!--  Size  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Status  -->
+                                <ColumnDefinition Width="1.3*" />
+                                <!--  Time Left  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Last  -->
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <checkbox:ccDownloadCheckBox
+                                x:Name="chSelect"
+                                Grid.Column="0"
+                                Content="CheckBox"
+                                Foreground="White"
+                                IsChecked="{TemplateBinding IsSelected}" />
+
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Path
+                                        Margin="5,0,15,0"
+                                        Data="{Binding Icon}"
+                                        Stretch="Uniform"
+                                        Stroke="White"
+                                        StrokeThickness="1" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Title}" Style="{DynamicResource StyleLabelListBoxItem}" />
+                                    <Label
+                                        Content="{Binding Format}"
+                                        FontSize="10"
+                                        Opacity="0.6"
+                                        Style="{DynamicResource StyleLabelListBoxItem}" />
+                                </StackPanel>
+                            </StackPanel>
+
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Left">
+                                <Label Content="{Binding Size}" Style="{DynamicResource StyleLabelListBoxItem}" />
+                            </Grid>
+
+
+                            <Grid Grid.Column="3" Height="30">
+                                <ProgressBar
+                                    x:Name="prog"
+                                    VerticalAlignment="Bottom"
+                                    Style="{DynamicResource StyleStatusProgressBar}"
+                                    Value="{Binding Value}" />
+                            </Grid>
+
+                            <Grid Grid.Column="4">
+                                <Label
+                                    Margin="8,4,0,0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Bottom"
+                                    Content="{Binding TimeLeft}"
+                                    Style="{DynamicResource StyleLabelListBoxItem}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Opacity" Value="0.1" />
+                            <Setter TargetName="chSelect" Property="IsChecked" Value="True" />
+                        </Trigger>-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.3" />
+                        </Trigger>
+                        <Trigger SourceName="prog" Property="Value" Value="100">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Setter Property="Opacity" Value="0.1" />
+                            <Setter TargetName="chSelect" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  CheckBox  -->
+    <Style TargetType="{x:Type checkbox:ccDownloadCheckBox}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0.5" Color="#3590AD" />
+                    <GradientStop Offset="0.7" Color="#976DD2" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type checkbox:ccDownloadCheckBox}">
+                    <Border
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+                        <Grid>
+                            <Rectangle
+                                Width="20"
+                                Height="20"
+                                Fill="{TemplateBinding Background}"
+                                RadiusX="5"
+                                RadiusY="5" />
+                            <Path
+                                x:Name="icon"
+                                Width="10"
+                                Height="10"
+                                Margin="5"
+                                Data="{DynamicResource Done}"
+                                Stretch="Uniform"
+                                Stroke="White"
+                                StrokeThickness="2"
+                                Visibility="Hidden" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="icon" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
